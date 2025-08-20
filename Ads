@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>João Victor Barros das Merces - Portfólio de Desenvolvedor</title>
+    
+    <!-- Fontes (Noto Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- RESET E GERAL (Base Coding Creed) --- */
+        :root {
+            --color-background: #000000;
+            --color-text: #FFFFFF;
+            --color-subtext: #B1B1B1;
+            --color-accent: #BDA77B; /* Dourado/Bege para detalhes */
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            color: var(--color-text);
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* --- NOVO FUNDO E EFEITO --- */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2t4aDlyZDdzeXd6Zm43MGNua2VjZ2ZsdjhkNmk4bW40ZHRqZ3VkbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tn33aiTi1jkl6H6/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            /* Efeito "daora" de pan/zoom lento */
+            animation: slowPan 40s infinite alternate ease-in-out;
+        }
+        @keyframes slowPan {
+            0% { transform: scale(1) translate(2%, -2%); }
+            100% { transform: scale(1.1) translate(-2%, 2%); }
+        }
+        /* Overlay para legibilidade */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Overlay escuro */
+            z-index: -1;
+        }
+        .main-content {
+            padding: 0 40px;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .outer-wrap {
+            padding: 150px 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- CABEÇALHO --- */
+        .main-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--color-text);
+            text-decoration: none;
+        }
+        .email-button a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--color-text);
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        .email-button a:hover {
+            background-color: var(--color-text);
+            color: var(--color-background);
+        }
+
+        /* --- SEÇÃO DE TÍTULO ANIMADO --- */
+        .columns {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+        }
+        .column.content-wrap {
+            flex: 1;
+        }
+        .column.content-media {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .profile-image-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--color-accent);
+            box-shadow: 0 0 30px rgba(189, 167, 123, 0.5);
+        }
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .title-wrap-animate h1 {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+        .animate_characters-word {
+            display: inline-block;
+        }
+        .animate_characters-character {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px) rotate(10deg);
+            transition: opacity 0.6s, transform 0.6s;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        body.loaded .animate_characters-character {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+        .description-wrap {
+            margin-top: 2rem;
+            max-width: 600px;
+        }
+        .description-wrap p {
+            color: var(--color-subtext);
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+        
+        /* --- SEÇÃO DE HABILIDADES --- */
+        .skills-wrap {
+            margin-top: 2.5rem;
+        }
+        .skills-wrap h3 {
+            color: var(--color-subtext);
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .skills-icons-container {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap; /* Permite que os ícones quebrem a linha em telas menores */
+        }
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .skill-item img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .skill-item:hover img {
+            transform: scale(1.1);
+        }
+        .skill-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-subtext);
+        }
+
+        /* --- LINKS E MODAL DE EMAIL --- */
+        .link-wrap-container {
+            margin-top: 3rem;
+            display: flex;
+            gap: 30px;
+        }
+        .link-wrap {
+            position: relative;
+        }
+        .link-wrap a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .animate-underscore {
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: width 0.4s ease;
+        }
+        .link-wrap:hover .animate-underscore {
+            width: 100%;
+        }
+
+        .email-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background-color: #222;
+            padding: 25px 30px;
+            border-radius: 10px;
+            border: 1px solid var(--color-accent);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+            text-align: center;
+        }
+        .email-modal.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .email-modal p {
+            font-size: 1rem;
+            color: var(--color-subtext);
+            margin-bottom: 15px;
+        }
+        .email-modal .email-address {
+            font-weight: bold;
+            color: var(--color-text);
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        .email-modal .copy-button {
+            background: var(--color-accent);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .email-modal .copy-button:hover {
+            background: #fff;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 900px) {
+            .columns {
+                flex-direction: column-reverse; /* Imagem vai para cima em telas menores */
+                text-align: center;
+            }
+            .profile-image-container {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 2rem;
+            }
+            .link-wrap-container, .skills-icons-container {
+                justify-content: center;
+            }
+            .skills-wrap {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        @media (max-width: 768px) {
+            .main-content { padding: 0 20px; }
+            .outer-wrap { padding: 120px 0 80px 0; }
+            .email-button { display: none; }
+            .main-menu { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container"></div>
+
+    <header class="main-menu">
+        <a href="#" class="menu-logo">
+            João Victor Barros das Merces
+        </a>
+        <div class="email-button">
+            <!-- BOTÃO DO CABEÇALHO ATUALIZADO -->
+            <a href="https://github.com/Joaovictoreth1" target="_blank"><span>Ver GitHub</span></a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="outer-wrap">
+            <div class="container">
+                <div class="columns">
+                    <div class="column content-wrap">
+                        <div class="title-wrap-animate">
+                            <h1>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>D</span><span class='animate_characters-character'>e</span><span class='animate_characters-character'>s</span><span class='animate_characters-character'>e</span><span class='animate_characters-character'>n</span><span class='animate_characters-character'>v</span><span class='animate_characters-character'>o</span><span class='animate_characters-character'>l</span><span class='animate_characters-character'>v</span><span class='animate_characters-character'>e</span><span class='animate_characters-character'>d</span><span class='animate_characters-character'>o</span><span class='animate_characters-character'>r</span>&nbsp;
+                                </span>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>c</span><span class='animate_characters-character'>o</span><span class='animate_characters-character'>m</span>&nbsp;
+                                </span>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>f</span><span class='animate_characters-character'>o</span><span class='animate_characters-character'>c</span><span class='animate_characters-character'>o</span>&nbsp;
+                                </span>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>e</span><span class='animate_characters-character'>m</span>&nbsp;
+                                </span>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>I</span><span class='animate_characters-character'>A</span>&nbsp;
+                                </span>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>e</span>&nbsp;
+                                </span>
+                                <span class='animate_characters-word'>
+                                    <span class='animate_characters-character'>P</span><span class='animate_characters-character'>r</span><span class='animate_characters-character'>o</span><span class='animate_characters-character'>g</span><span class='animate_characters-character'>r</span><span class='animate_characters-character'>a</span><span class='animate_characters-character'>m</span><span class='animate_characters-character'>a</span><span class='animate_characters-character'>ç</span><span class='animate_characters-character'>ã</span><span class='animate_characters-character'>o</span>
+                                </span>
+                            </h1>
+                        </div>
+                        <div class="description-wrap">
+                            <p>Tenho 19 anos e sou estudante de Análise e Desenvolvimento de Sistemas na UNICID. Atualmente, estou me dedicando a criar, programar e estudar novas tecnologias na área de programação e IA para transformar ideias complexas em soluções digitais eficientes.</p>
+                        </div>
+                        
+                        <!-- SEÇÃO DE HABILIDADES ATUALIZADA -->
+                        <div class="skills-wrap">
+                            <h3>Minhas Habilidades Principais</h3>
+                            <div class="skills-icons-container">
+                                <div class="skill-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript Logo">
+                                    <span>JavaScript</span>
+                                </div>
+                                <div class="skill-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python Logo">
+                                    <span>Python</span>
+                                </div>
+                                <div class="skill-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png" alt="C# Logo">
+                                    <span>C#</span>
+                                </div>
+                                <div class="skill-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML5 Logo">
+                                    <span>HTML5</span>
+                                </div>
+                                <div class="skill-item">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/1200px-Java_programming_language_logo.svg.png" alt="Java Logo">
+                                    <span>Java</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="link-wrap-container">
+                            <div class="link-wrap">
+                                <a href="https://www.linkedin.com/in/joão-victor-68847733b" target="_blank">LinkedIn</a>
+                                <div class="animate-underscore"></div>
+                            </div>
+                            <div class="link-wrap">
+                                <a id="emailLink">Email</a>
+                                <div class="animate-underscore"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column content-media">
+                        <div class="profile-image-container">
+                            <img src="https://media-gru1-2.cdn.whatsapp.net/v/t61.24694-24/491870746_988976000087285_7182624657755983603_n.jpg?ccb=11-4&oh=01_Q5Aa2QEiGfK6gC3Kqxn4_6mlNEb0WRemHUXzNKI6nnZxuqG-HA&oe=68B102D4&_nc_sid=5e03e0&_nc_cat=109" alt="Foto de João Victor Barros das Merces">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE EMAIL (Inicialmente escondido) -->
+    <div id="emailModal" class="email-modal">
+        <p>Meu endereço de email:</p>
+        <div id="emailAddress" class="email-address">joaovictor.business2005@gmail.com</div>
+        <button id="copyButton" class="copy-button">Copiar</button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // --- ANIMAÇÃO DO TÍTULO ---
+            function startAnimation() {
+                document.body.classList.add('loaded');
+                const characters = document.querySelectorAll('.animate_characters-character');
+                characters.forEach((char, index) => {
+                    char.style.transitionDelay = (index * 0.025) + 's';
+                });
+            }
+            setTimeout(startAnimation, 100);
+
+            // --- LÓGICA DO MODAL DE EMAIL ---
+            const emailLink = document.getElementById('emailLink');
+            const emailModal = document.getElementById('emailModal');
+            const copyButton = document.getElementById('copyButton');
+            const emailAddress = document.getElementById('emailAddress').innerText;
+
+            emailLink.addEventListener('click', () => {
+                emailModal.classList.add('visible');
+            });
+
+            // Fecha o modal se clicar fora dele
+            document.addEventListener('click', function(event) {
+                if (!emailModal.contains(event.target) && event.target !== emailLink) {
+                    emailModal.classList.remove('visible');
+                }
+            });
+
+            copyButton.addEventListener('click', () => {
+                // Cria um elemento de texto temporário para copiar
+                const tempInput = document.createElement('textarea');
+                tempInput.value = emailAddress;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                // Feedback visual para o usuário
+                copyButton.innerText = 'Copiado!';
+                setTimeout(() => {
+                    copyButton.innerText = 'Copiar';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
