@@ -140,14 +140,16 @@
         }
         .animate_characters-character {
             display: inline-block;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          body:not(.loaded).animate-title .animate_characters-character {
             opacity: 0;
             transform: translateY(50px) rotate(10deg);
+          }
+          body.animate-title .animate_characters-character {
             transition: opacity 0.6s, transform 0.6s;
             transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-        body.loaded .animate_characters-character {
-            opacity: 1;
-            transform: translateY(0) rotate(0);
+          }
         }
         .description-wrap {
             margin-top: 2rem;
@@ -202,6 +204,7 @@
         .link-wrap-container {
             margin-top: 3rem;
             display: flex;
+            flex-wrap: wrap;
             gap: 30px;
         }
         .link-wrap {
@@ -227,53 +230,57 @@
             width: 100%;
         }
 
-        .email-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background-color: #222;
-            padding: 25px 30px;
-            border-radius: 10px;
+        :focus-visible {
+            outline: 3px solid var(--color-accent);
+            outline-offset: 4px;
+        }
+        .email-contact {
+            flex: 1 1 100%;
+            max-width: 37rem;
+            padding: .85rem;
             border: 1px solid var(--color-accent);
-            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
-            text-align: center;
+            border-radius: .65rem;
+            background: #171717;
         }
-        .email-modal.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
+        .email-contact summary {
+            display: list-item;
+            width: fit-content;
+            min-height: 2.75rem;
+            padding-block: .5rem;
+            cursor: pointer;
+            font-weight: 700;
         }
-        .email-modal p {
-            font-size: 1rem;
-            color: var(--color-subtext);
-            margin-bottom: 15px;
+        .email-contact .contact-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin: .75rem 0 0;
         }
-        .email-modal .email-address {
-            font-weight: bold;
+        .contact-actions a {
             color: var(--color-text);
-            background: #333;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            word-break: break-all;
+            overflow-wrap: anywhere;
         }
-        .email-modal .copy-button {
+        .copy-button {
             background: var(--color-accent);
             color: #000;
             border: none;
-            padding: 10px 20px;
+            min-height: 2.75rem;
+            padding: .5rem .85rem;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.2s;
         }
-        .email-modal .copy-button:hover {
-            background: #fff;
+        .email-contact [role="status"]:not(:empty) {
+            margin-top: .65rem;
+            color: var(--color-subtext);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
 
         /* --- RESPONSIVIDADE --- */
@@ -383,10 +390,15 @@
                                 <a href="https://www.linkedin.com/in/joão-victor-68847733b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                                 <div class="animate-underscore"></div>
                             </div>
-                            <div class="link-wrap">
-                                <a id="emailLink">Email</a>
-                                <div class="animate-underscore"></div>
-                            </div>
+                            <details class="email-contact">
+                                <summary>Opções de contato por e-mail</summary>
+                                <p>Abra seu aplicativo de e-mail ou copie o endereço.</p>
+                                <div class="contact-actions">
+                                    <a id="emailAddress" href="mailto:joaovictor.business2005@gmail.com">joaovictor.business2005@gmail.com</a>
+                                    <button id="copyButton" type="button" class="copy-button" hidden>Copiar e-mail</button>
+                                </div>
+                                <p id="copyStatus" role="status"></p>
+                            </details>
                         </div>
                     </div>
                     <div class="column content-media">
@@ -399,59 +411,6 @@
         </section>
     </main>
 
-    <!-- MODAL DE EMAIL (Inicialmente escondido) -->
-    <div id="emailModal" class="email-modal">
-        <p>Meu endereço de email:</p>
-        <div id="emailAddress" class="email-address">joaovictor.business2005@gmail.com</div>
-        <button id="copyButton" class="copy-button">Copiar</button>
-    </div>
-
-    <!-- Scripts -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // --- ANIMAÇÃO DO TÍTULO ---
-            function startAnimation() {
-                document.body.classList.add('loaded');
-                const characters = document.querySelectorAll('.animate_characters-character');
-                characters.forEach((char, index) => {
-                    char.style.transitionDelay = (index * 0.025) + 's';
-                });
-            }
-            setTimeout(startAnimation, 100);
-
-            // --- LÓGICA DO MODAL DE EMAIL ---
-            const emailLink = document.getElementById('emailLink');
-            const emailModal = document.getElementById('emailModal');
-            const copyButton = document.getElementById('copyButton');
-            const emailAddress = document.getElementById('emailAddress').innerText;
-
-            emailLink.addEventListener('click', () => {
-                emailModal.classList.add('visible');
-            });
-
-            // Fecha o modal se clicar fora dele
-            document.addEventListener('click', function(event) {
-                if (!emailModal.contains(event.target) && event.target !== emailLink) {
-                    emailModal.classList.remove('visible');
-                }
-            });
-
-            copyButton.addEventListener('click', () => {
-                // Cria um elemento de texto temporário para copiar
-                const tempInput = document.createElement('textarea');
-                tempInput.value = emailAddress;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                // Feedback visual para o usuário
-                copyButton.innerText = 'Copiado!';
-                setTimeout(() => {
-                    copyButton.innerText = 'Copiar';
-                }, 2000);
-            });
-        });
-    </script>
+    <script type="module" src="contact.mjs"></script>
 </body>
 </html>
