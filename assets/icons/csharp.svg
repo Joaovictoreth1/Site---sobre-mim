@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-hidden="true">
+  <polygon points="32,4 58,18 58,46 32,60 6,46 6,18" fill="#512bd4" />
+  <text x="32" y="41" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#ffffff">C#</text>
+</svg>
