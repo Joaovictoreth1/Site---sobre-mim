@@ -1,0 +1,7 @@
+node_modules/
+coverage/
+package-lock.json
+assets/
+deploy/nginx.conf
+deploy/security-headers.conf
+Makefile

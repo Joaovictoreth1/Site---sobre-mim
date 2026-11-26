@@ -1,0 +1,531 @@
+:root {
+  --color-background: #08080a;
+  --color-surface: #18181c;
+  --color-surface-elevated: #24242b;
+  --color-text: #fff;
+  --color-subtext: #c2c2c8;
+  --color-accent: #bda77b;
+  --color-accent-strong: #d6c298;
+  --color-border: rgb(189 167 123 / 35%);
+  --color-backdrop: rgb(0 0 0 / 72%);
+  --font-sans: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --max-width: 1280px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-background);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 3000;
+  padding: 10px 16px;
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* Ambient GPU-composited background (no external GIF hotlinking) */
+.background-container {
+  position: fixed;
+  inset: -6%;
+  z-index: -2;
+  background-color: var(--color-background);
+  background-image:
+    radial-gradient(circle at 20% 25%, rgb(189 167 123 / 18%), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgb(105 90 64 / 22%), transparent 50%),
+    linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    100% 100%,
+    48px 48px,
+    48px 48px;
+  animation: slow-pan 40s infinite alternate ease-in-out;
+  will-change: transform;
+}
+
+@keyframes slow-pan {
+  0% {
+    transform: scale(1) translate3d(1.5%, -1.5%, 0);
+  }
+
+  100% {
+    transform: scale(1.06) translate3d(-1.5%, 1.5%, 0);
+  }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgb(8 8 10 / 45%) 0%, rgb(8 8 10 / 82%) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: linear-gradient(to bottom, rgb(8 8 10 / 90%), rgb(8 8 10 / 0%));
+  backdrop-filter: blur(6px);
+}
+
+.main-menu {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 22px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-logo {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.github-button {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-text);
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.github-button:hover,
+.github-button:focus-visible {
+  background-color: var(--color-text);
+  color: var(--color-background);
+}
+
+.main-content {
+  flex: 1;
+  padding: 0 40px;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.outer-wrap {
+  padding: 140px 0 96px;
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+}
+
+.columns {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.column.content-wrap {
+  flex: 1.2;
+}
+
+.column.content-media {
+  flex: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image-container {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid var(--color-accent);
+  box-shadow: 0 0 36px rgb(189 167 123 / 42%);
+  background-color: var(--color-surface);
+}
+
+.profile-image-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title-wrap-animate h1 {
+  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  line-height: 1.18;
+  font-weight: 700;
+}
+
+.animate-characters-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.animate-characters-character {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(36px) rotate(6deg);
+  transition:
+    opacity 0.55s cubic-bezier(0.25, 0.1, 0.25, 1),
+    transform 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+body.title-animated .animate-characters-character {
+  opacity: 1;
+  transform: translateY(0) rotate(0);
+}
+
+.description-wrap {
+  margin-top: 1.75rem;
+  max-width: 620px;
+}
+
+.description-wrap p {
+  color: var(--color-subtext);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.skills-wrap {
+  margin-top: 2.5rem;
+}
+
+.skills-wrap h2 {
+  color: var(--color-subtext);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.skills-icons-container {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-item img {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.skill-item:hover img {
+  transform: scale(1.1);
+}
+
+.skill-item span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-subtext);
+}
+
+.link-wrap-container {
+  margin-top: 2.75rem;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.link-wrap {
+  position: relative;
+}
+
+.link-action {
+  color: var(--color-text);
+  background: transparent;
+  border: 0;
+  font-family: inherit;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.animate-underscore {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: width 0.35s ease;
+}
+
+.link-wrap:hover .animate-underscore,
+.link-wrap:focus-within .animate-underscore {
+  width: 100%;
+}
+
+.site-footer {
+  padding: 20px 40px;
+  text-align: center;
+  color: var(--color-subtext);
+  font-size: 0.875rem;
+  border-top: 1px solid rgb(255 255 255 / 8%);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-backdrop);
+  backdrop-filter: blur(3px);
+  z-index: 1900;
+}
+
+.email-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 420px);
+  background-color: var(--color-surface);
+  padding: 28px 30px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 60%);
+  z-index: 2000;
+  text-align: center;
+}
+
+.email-modal h2 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: 0;
+  color: var(--color-subtext);
+  font-size: 1.6rem;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.modal-close:hover,
+.modal-close:focus-visible {
+  color: var(--color-text);
+  background-color: var(--color-surface-elevated);
+}
+
+.modal-subtitle {
+  font-size: 0.95rem;
+  color: var(--color-subtext);
+  margin-bottom: 14px;
+}
+
+.email-address {
+  font-weight: 700;
+  color: var(--color-text);
+  background-color: var(--color-surface-elevated);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.copy-button,
+.mailto-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.copy-button {
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  border: 1px solid var(--color-accent);
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  background-color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.mailto-button {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.mailto-button:hover,
+.mailto-button:focus-visible {
+  border-color: var(--color-accent-strong);
+  color: var(--color-accent-strong);
+}
+
+.copy-feedback {
+  min-height: 1.25rem;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: var(--color-accent-strong);
+}
+
+@media (width <= 900px) {
+  .columns {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .profile-image-container {
+    width: 210px;
+    height: 210px;
+  }
+
+  .description-wrap {
+    margin-inline: auto;
+  }
+
+  .link-wrap-container,
+  .skills-icons-container {
+    justify-content: center;
+  }
+
+  .skills-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (width <= 768px) {
+  .main-menu {
+    padding: 16px 20px;
+  }
+
+  .menu-logo {
+    font-size: 1rem;
+  }
+
+  .github-button {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .main-content {
+    padding: 0 20px;
+  }
+
+  .outer-wrap {
+    padding: 112px 0 64px;
+  }
+
+  .site-footer {
+    padding: 16px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .background-container {
+    animation: none;
+  }
+
+  .animate-characters-character {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .skill-item img,
+  .animate-underscore,
+  .github-button,
+  .copy-button,
+  .mailto-button {
+    transition: none;
+  }
+}

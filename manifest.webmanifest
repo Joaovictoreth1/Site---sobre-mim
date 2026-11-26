@@ -1,0 +1,16 @@
+{
+  "name": "João Victor Barros das Merces — Portfólio",
+  "short_name": "JV Portfólio",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08080a",
+  "theme_color": "#08080a",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
